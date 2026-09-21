@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 导出产物不入库
+*.csv
+*.xlsx
+!examples/*.csv
