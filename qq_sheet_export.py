@@ -351,9 +351,9 @@ def export(docid, tabid, timeout=40, verbose=True):
 def parse_target(text):
     """把完整链接或裸 ID 解析成 (docid, tabid)"""
     if 'docs.qq.com' in text:
-        match = re.search(r'/(?:sheet|doc)/([A-Za-z0-9]+)', text)
+        match = re.search(r'/sheet/([A-Za-z0-9]+)', text)
         if not match:
-            raise ExportError('链接里找不到文档 ID: %s' % text)
+            raise ExportError('只支持 docs.qq.com/sheet/ 表格链接: %s' % text)
         query = urllib.parse.parse_qs(urllib.parse.urlparse(text).query)
         return match.group(1), (query.get('tab') or [None])[0]
     return text, None
@@ -396,8 +396,14 @@ def main(argv=None):
         if args.xlsx:
             try:
                 from format_excel import csv_to_xlsx
-            except ImportError:
-                print('跳过 --xlsx：同目录下找不到 format_excel.py', file=sys.stderr)
+            except ModuleNotFoundError as exc:
+                if exc.name == 'format_excel':
+                    print('跳过 --xlsx：同目录下找不到 format_excel.py', file=sys.stderr)
+                elif exc.name == 'openpyxl':
+                    print('跳过 --xlsx：缺少可选依赖 openpyxl；请运行 pip install openpyxl',
+                          file=sys.stderr)
+                else:
+                    raise
             else:
                 xlsx_path = os.path.splitext(out_path)[0] + '.xlsx'
                 csv_to_xlsx(out_path, xlsx_path)
