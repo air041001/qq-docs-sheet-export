@@ -23,14 +23,14 @@
 
 ```bash
 # 直接给链接（自动解析文档 ID 和 tab）
-python qq_sheet_export.py "https://docs.qq.com/sheet/DVFRkRWxOR05TZ01I?tab=zfecnv"
+python qq_sheet_export.py "https://docs.qq.com/sheet/YOUR_DOC_ID?tab=YOUR_TAB_ID"
 
 # 也可以只给文档 ID，再用 --list-tabs 看有哪些工作表
-python qq_sheet_export.py --list-tabs DVFRkRWxOR05TZ01I
-python qq_sheet_export.py DVFRkRWxOR05TZ01I xxxxx
+python qq_sheet_export.py --list-tabs YOUR_DOC_ID
+python qq_sheet_export.py YOUR_DOC_ID YOUR_TAB_ID
 
 # 指定输出路径 / 顺带生成排版好的 xlsx
-python qq_sheet_export.py <链接> -o data.csv --xlsx
+python qq_sheet_export.py "https://docs.qq.com/sheet/YOUR_DOC_ID?tab=YOUR_TAB_ID" -o data.csv --xlsx
 ```
 
 输出为 **UTF-8-SIG** 的 CSV（Excel 双击不乱码）。
